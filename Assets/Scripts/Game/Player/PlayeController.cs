@@ -8,19 +8,34 @@ public class PlayeController : MonoBehaviour {
     public Rigidbody2D rb;
     public float speed;
     public MusicManager music;
+
+    // Canvas Elements
     public Text scoreText;
+    public Text heightText;
+    public Text speedText;
 
     public static bool s_isOnSpeaker = false;
     public static int score = 0;
 
     private int jumps = 0;
     private int playerLayer;
+    private Vector3 previousPos = new Vector3(0,0,0);
 
     private void Start()
     {
         playerLayer = ~(LayerMask.GetMask("Player"));
 
         UpdateScore();
+    }
+
+    void Update()
+    {
+        heightText.text = Mathf.Round(transform.position.y) + "ft";
+
+        float distance = Vector2.Distance(previousPos, transform.position);
+        float speed = distance / Time.deltaTime;
+        speedText.text = Mathf.Round(speed) + " mi/h";
+        previousPos = transform.position;
     }
 
     // Update is called once per frame
